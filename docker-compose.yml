@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  database:
+      image: bitname/postgresql
+      ports:
+        '5431:5432'
+      container_name: backendc017mod5ii
+      restart: always
+      volumes: 
+          backendc017mod5ii-disk:/var/lib/postgresql/data
+          environment:
+            POSTGRES_USER: admin
+            POSTGRES_PASSWORD: admin01
+            POSTGRES_DB: backendc017mod5ii
+volumes: 
+  backendc017mod5ii:

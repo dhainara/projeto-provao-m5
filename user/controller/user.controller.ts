@@ -15,14 +15,12 @@ export class UserController{
 
     @Post()
     async createUser(
-        @Body() { cpf, email, password, username, role }: UserDto,): Promise<IUserEntity>{
+        @Body() { email, password, name }: UserDto,): Promise<IUserEntity>{
         try {
             return await this.service.createUser({
-                cpf,
+                name,
                 email,
                 password,
-                username, 
-                role,
             })
         } catch (err) {
             console.log(err)

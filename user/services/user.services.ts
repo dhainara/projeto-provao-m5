@@ -2,12 +2,19 @@ import { IUserEntity } from '../entities/user.entity'
 import { UserDto } from './dto/userinput.dto'
 import { randomUUID } from 'crypto'
 import { PartialUserDto } from './dto/partialUserInput'
+import { ICategoryEntity } from 'category/entities/category.entity'
 
 export class UserService {
-    private users: IUserEntity[] =[]
+    private users: IUserEntity[] = []
+    private category: ICategoryEntity[] = []
     
     async createUser(user: UserDto): Promise<IUserEntity> {
-        const userEntity = {...user, id:randomUUID(), createdAt: Date.now()}
+        const userEntity = {id:randomUUID(), ...user,createdAt: Date.now(), category: 'normal' }
+
+        if (!user.email) {
+            throw new Error('Email já cadastrado!')
+        }
+
         this.users.push(userEntity)
         return userEntity
     }
@@ -24,13 +31,13 @@ export class UserService {
     }
 
     async getAllUsers(): Promise<IUserEntity[]> {
-        return this.users
+            return this.users
     }
  
     async getUserById(userId:string): Promise<IUserEntity> {
         const userById = this.users.find((user) => user.id === userId)
         if (!userById) {
-            throw new Error('Usuario nao encontrado!')
+            throw new Error('Usuario não encontrado!')
         }
         return userById
      }
@@ -44,7 +51,8 @@ export class UserService {
 
         this.users.map((user, index) => {
             if (user.id === userId) {
-                this.users.splice(index,1)
+                this.users.splice(index, 1)
+                return 
             }
         })
 
